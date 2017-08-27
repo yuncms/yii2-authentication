@@ -1,0 +1,24 @@
+{
+  "name": "yuncms/yii2-authentication",
+  "description": "authentication",
+  "keywords": [
+    "authentication","yii2","yii2-module"
+  ],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Xu TL",
+      "email": "xutongle@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "~2.0.6",
+    "yuncms/yii2-user": "~2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "yuncms\\authentication\\": ""
+    }
+  }
+}
