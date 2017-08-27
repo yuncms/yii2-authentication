@@ -10,7 +10,7 @@ use yuncms\authentication\models\Authentication;
 FilestyleAsset::register($this);
 /*
  * @var yii\web\View $this
- * @var yuncms\user\models\Authentication $model
+ * @var yuncms\authentication\models\Authentication $model
  */
 
 $this->title = Yii::t('authentication', 'Authentication');

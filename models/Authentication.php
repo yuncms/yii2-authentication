@@ -134,7 +134,7 @@ class Authentication extends ActiveRecord
             [['id_file2'], 'file', 'extensions' => 'gif,jpg,jpeg,png', 'maxSize' => 1024 * 1024 * 2, 'tooBig' => Yii::t('authentication', 'File has to be smaller than 2MB'), 'on' => ['create', 'update']],
 
             // verifyCode needs to be entered correctly
-            ['verifyCode', 'captcha', 'captchaAction' => '/user/authentication/captcha'],
+            ['verifyCode', 'captcha', 'captchaAction' => '/authentication/authentication/captcha'],
 
             'registrationPolicyRequired' => ['registrationPolicy', 'required', 'skipOnEmpty' => false, 'requiredValue' => true,
                 'message' => Yii::t('authentication', '{attribute} must be selected.')

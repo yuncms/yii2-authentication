@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="row">
     <div class="col-md-12">
         <h2 class="h3 profile-title"><?= Yii::t('authentication', 'Authentication') ?></h2>
-        <?php if ($model): ?>
+        <?php if (!$model->isNewRecord): ?>
             <?php if ($model->status == 0): ?>
                 <div class="alert alert-info" role="alert">
                     <?= Yii::t('authentication', 'Your application is submitted successfully! We will be processed within three working days, the results will be processed by mail, station message to inform you, if in doubt please contact the official administrator.') ?>
@@ -37,37 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="row">
             <div class="col-md-12">
-                <?php if (!$model->isNewRecord): ?>
-                    <div class="box box-solid">
-                        <div class="box-body">
-                            <dl class="dl-horizontal">
-                                <dt><?= Yii::t('authentication', 'Full Name') ?></dt>
-                                <dd><?= $model->real_name ?></dd>
-                                <dt><?= Yii::t('authentication', 'Email') ?></dt>
-                                <dd><?= Yii::$app->user->identity->email ?></dd>
-                                <dt><?= Yii::t('authentication', 'Id Type') ?></dt>
-                                <dd><?= $model->type ?></dd>
-                                <dt><?= Yii::t('authentication', 'Id Card') ?></dt>
-                                <dd><?= $model->id_card ?></dd>
-                                <dt><?= Yii::t('authentication', 'Id Card Image') ?></dt>
-                                <dd><img class="img-responsive"
-                                         src="<?= $model->passport_cover ? base64_encode(file_get_contents($model->passport_cover)) : '' ?>"/>
-                                </dd>
-                                <dt><?= Yii::t('authentication', 'Id Card Image') ?></dt>
-                                <dd><img class="img-responsive"
-                                         src="<?= $model->passport_person_page ? base64_encode(file_get_contents($model->passport_person_page)) : '' ?>"/>
-                                </dd>
-                                <dt><?= Yii::t('authentication', 'Id Card Image') ?></dt>
-                                <dd><img class="img-responsive"
-                                         src="<?= $model->passport_self_holding ? base64_encode(file_get_contents($model->passport_self_holding)) : '' ?>"/>
-                                </dd>
-                                <dd><a href="<?= Url::to(['/authentication/authentication/update']) ?>"
-                                       class="btn btn-warning">修改认证资料</a>
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-                <?php else: ?>
+                <?php if ($model->isNewRecord): ?>
                     <?php $form = ActiveForm::begin([
                         'layout' => 'horizontal',
                         'options' => [
@@ -115,6 +85,36 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
 
                     <?php ActiveForm::end(); ?>
+                <?php else: ?>
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <dl class="dl-horizontal">
+                                <dt><?= Yii::t('authentication', 'Full Name') ?></dt>
+                                <dd><?= $model->real_name ?></dd>
+                                <dt><?= Yii::t('authentication', 'Email') ?></dt>
+                                <dd><?= Yii::$app->user->identity->email ?></dd>
+                                <dt><?= Yii::t('authentication', 'Id Type') ?></dt>
+                                <dd><?= $model->type ?></dd>
+                                <dt><?= Yii::t('authentication', 'Id Card') ?></dt>
+                                <dd><?= $model->id_card ?></dd>
+                                <dt><?= Yii::t('authentication', 'Id Card Image') ?></dt>
+                                <dd><img class="img-responsive"
+                                         src="<?= $model->passportCover64 ?>"/>
+                                </dd>
+                                <dt><?= Yii::t('authentication', 'Id Card Image') ?></dt>
+                                <dd><img class="img-responsive"
+                                         src="<?= $model->passportPersonPage64 ?>"/>
+                                </dd>
+                                <dt><?= Yii::t('authentication', 'Id Card Image') ?></dt>
+                                <dd><img class="img-responsive"
+                                         src="<?= $model->passportSelfHolding64 ?>"/>
+                                </dd>
+                                <dd><a href="<?= Url::to(['/authentication/authentication/update']) ?>"
+                                       class="btn btn-warning">修改认证资料</a>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
