@@ -10,6 +10,7 @@ namespace yuncms\authentication\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 use yuncms\user\models\User;
 
@@ -66,6 +67,15 @@ class Authentication extends ActiveRecord
     const STATUS_PENDING = 0;
     const STATUS_REJECTED = 1;
     const STATUS_AUTHENTICATED = 2;
+
+    protected $idCardUrl;
+    protected $idCardPath;
+    public function init()
+    {
+        parent::init();
+        $this->idCardUrl = Yii::getAlias(Yii::$app->settings->get('idCardUrl', 'authentication'));
+        $this->idCardPath  = Yii::getAlias(Yii::$app->settings->get('idCardPath', 'authentication'));
+    }
 
     /**
      * @inheritdoc
@@ -203,10 +213,7 @@ class Authentication extends ActiveRecord
 
     public function getIdCardUrl()
     {
-        if ($this->user_id) {
-            return Yii::$app->getModule('authentication')->getIdCardUrl($this->user_id);
-        }
-        return Yii::$app->getModule('authentication')->getIdCardUrl(Yii::$app->user->id);
+        return $this->idCardUrl . '/' . $this->getSavePath($this->user_id) . substr($this->user_id, -2);
     }
 
     public function getPassportCover64()
@@ -236,16 +243,39 @@ class Authentication extends ActiveRecord
         }
     }
 
-    public function getIdCardPath()
+    /**
+     * 获取头像路径
+     *
+     * @param int $userId 用户ID
+     * @return string
+     */
+    public function getSavePath($userId)
     {
-        if ($this->user_id) {
-            return Yii::$app->getModule('authentication')->getIdCardPath($this->user_id);
-        }
-        return Yii::$app->getModule('authentication')->getIdCardPath(Yii::$app->user->id);
+        $id = sprintf("%09d", $userId);
+        $dir1 = substr($id, 0, 3);
+        $dir2 = substr($id, 3, 2);
+        $dir3 = substr($id, 5, 2);
+        return $dir1 . '/' . $dir2 . '/' . $dir3 . '/';
     }
 
+    /**
+     * 获取身份证的存储路径
+     * @return string
+     */
+    public function getIdCardPath()
+    {
+        $avatarPath = $this->idCardPath  . '/' . $this->getSavePath($this->user_id);
+        if (!is_dir($avatarPath)) {
+            FileHelper::createDirectory($avatarPath);
+        }
+        return $avatarPath . substr($this->user_id, -2);
+    }
 
-
+    /**
+     * 是否实名认证
+     * @param int $user_id
+     * @return bool
+     */
     public static function isAuthentication($user_id)
     {
         $user = static::findOne(['user_id' => $user_id]);
