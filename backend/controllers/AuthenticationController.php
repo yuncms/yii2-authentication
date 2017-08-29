@@ -18,6 +18,21 @@ use yii\web\Controller;
 class AuthenticationController extends Controller
 {
 
+    public function actions()
+    {
+        return [
+            //....
+            'settings' => [
+                'class' => 'yuncms\system\actions\SettingsAction',
+                'modelClass' => 'yuncms\authentication\backend\models\Settings',
+                //'scenario' => 'user',
+                //'scenario' => 'site', // Change if you want to re-use the model for multiple setting form.
+                'viewName' => 'settings'    // The form we need to render
+            ],
+            //....
+        ];
+    }
+
     /**
      * Lists all Authentication models.
      * @return mixed

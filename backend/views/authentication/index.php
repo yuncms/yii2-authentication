@@ -31,6 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => Yii::t('authentication', 'Manage Authentication'),
                             'url' => ['index'],
                         ],
+                        [
+                            'label' => Yii::t('authentication', 'Settings'),
+                            'url' => ['settings'],
+                        ],
                     ]]); ?>
                 </div>
                 <div class="col-sm-8 m-b-xs">

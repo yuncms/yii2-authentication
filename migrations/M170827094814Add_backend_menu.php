@@ -25,7 +25,6 @@ class M170827094814Add_backend_menu extends Migration
 
         $id = (new \yii\db\Query())->select(['id'])->from('{{%admin_menu}}')->where(['name' => '实名认证', 'parent' => 5])->scalar($this->getDb());
         $this->batchInsert('{{%admin_menu}}', ['name', 'parent', 'route', 'visible', 'sort'], [
-
             ['认证查看', $id, '/authentication/authentication/view', 0, NULL],
             ['审核认证', $id, '/authentication/authentication/update', 0, NULL],
         ]);

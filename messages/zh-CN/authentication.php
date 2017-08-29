@@ -18,12 +18,16 @@
  */
 return [
     'Authenticated' => '已认证',
+    'Settings' => '设置',
     'Create' => '创建',
     'Manage Authentication' => '实名认证管理',
     'Operation' => '操作',
     'Passed' => '通过',
     'Pending review' => '待审核',
     'Refuse' => '拒绝',
+    'Enable Machine Review' => '启用机器审核',
+    'idCard Url' => '图片访问URL',
+    'idCard Save Path' => '图片存储路径',
     'Rejected' => '已拒绝',
     'Reset' => '重置',
     'Search' => '搜索',
