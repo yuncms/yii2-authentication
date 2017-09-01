@@ -70,11 +70,15 @@ class Authentication extends ActiveRecord
 
     protected $idCardUrl;
     protected $idCardPath;
+
+    /**
+     * 初始化
+     */
     public function init()
     {
         parent::init();
-        $this->idCardUrl = Yii::getAlias(Yii::$app->settings->get('idCardUrl', 'authentication'));
-        $this->idCardPath  = Yii::getAlias(Yii::$app->settings->get('idCardPath', 'authentication'));
+        $this->idCardUrl = Yii::getAlias(Yii::$app->settings->get('idCardUrl', 'authentication'), false);
+        $this->idCardPath = Yii::getAlias(Yii::$app->settings->get('idCardPath', 'authentication'), false);
     }
 
     /**
@@ -264,7 +268,7 @@ class Authentication extends ActiveRecord
      */
     public function getIdCardPath()
     {
-        $avatarPath = $this->idCardPath  . '/' . $this->getSavePath($this->user_id);
+        $avatarPath = $this->idCardPath . '/' . $this->getSavePath($this->user_id);
         if (!is_dir($avatarPath)) {
             FileHelper::createDirectory($avatarPath);
         }
