@@ -285,7 +285,7 @@ class Authentication extends ActiveRecord
         $user = static::findOne(['user_id' => $user_id]);
         return $user ? $user->status == static::STATUS_AUTHENTICATED : false;
     }
-
+    
     /**
      * 删除前先删除附件
      * @return bool
@@ -325,6 +325,9 @@ class Authentication extends ActiveRecord
             }
             if ($this->id_file2 && $this->id_file2->saveAs($idCardPath . '_passport_self_holding_image.jpg')) {
                 $this->passport_self_holding = $this->getIdCardUrl() . '_passport_self_holding_image.jpg';
+            }
+            if (!$insert && $this->scenario == 'update') {
+                $this->status = self::STATUS_PENDING;
             }
             return true;
         } else {
