@@ -2,6 +2,7 @@
 
 namespace yuncms\authentication\migrations;
 
+use Yii;
 use yii\db\Migration;
 
 /**
@@ -20,6 +21,8 @@ class M170916081737Add_defailt_settings extends Migration
             ['string', 'authentication', 'idCardUrl', '@web/uploads/id_card', 1, date('Y-m-d H:i:s'), date('Y-m-d H:i:s')],
             ['string', 'authentication', 'idCardPath', '@root/uploads/id_card', 1, date('Y-m-d H:i:s'), date('Y-m-d H:i:s')],
         ]);
+
+        Yii::$app->settings->clearCache();
     }
 
     /**
