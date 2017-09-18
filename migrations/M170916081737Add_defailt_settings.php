@@ -14,7 +14,12 @@ class M170916081737Add_defailt_settings extends Migration
      */
     public function safeUp()
     {
+        $this->batchInsert('{{%settings}}', ['type', 'section', 'key', 'value', 'active', 'created', 'modified'], [
+            ['boolean', 'authentication', 'enableMachineReview', '0', 1, date('Y-m-d H:i:s'), date('Y-m-d H:i:s')],
 
+            ['string', 'authentication', 'idCardUrl', '@web/uploads/id_card', 1, date('Y-m-d H:i:s'), date('Y-m-d H:i:s')],
+            ['string', 'authentication', 'idCardPath', '@root/uploads/id_card', 1, date('Y-m-d H:i:s'), date('Y-m-d H:i:s')],
+        ]);
     }
 
     /**
@@ -22,9 +27,7 @@ class M170916081737Add_defailt_settings extends Migration
      */
     public function safeDown()
     {
-        echo "M170916081737Add_defailt_settings cannot be reverted.\n";
-
-        return false;
+        $this->delete('{{%settings}}', ['section' => 'authentication']);
     }
 
     /*
