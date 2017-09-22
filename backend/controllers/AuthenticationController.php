@@ -24,7 +24,7 @@ class AuthenticationController extends Controller
             //....
             'settings' => [
                 'class' => 'yuncms\system\actions\SettingsAction',
-                'modelClass' => 'yuncms\authentication\backend\models\Settings',
+                'modelClass' => 'yuncms\authentication\models\Settings',
                 //'scenario' => 'user',
                 //'scenario' => 'site', // Change if you want to re-use the model for multiple setting form.
                 'viewName' => 'settings'    // The form we need to render

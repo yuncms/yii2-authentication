@@ -5,14 +5,14 @@
  * @license http://www.tintsoft.com/license/
  */
 
-namespace yuncms\authentication\backend\models;
+namespace yuncms\authentication\models;
 
 use Yii;
 use yii\base\Model;
 
 /**
  * 附件上传设置
- * @package yuncms\attachment\backend\models
+ * @package yuncms\attachment\models
  */
 class Settings extends Model
 {

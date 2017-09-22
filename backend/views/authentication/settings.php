@@ -7,8 +7,8 @@ use xutl\inspinia\Alert;
 use xutl\inspinia\ActiveForm;
 use yuncms\user\backend\models\Settings;
 
-/* @var $this yii\web\View */
-/* @var $model yuncms\user\backend\models\Settings */
+/* @var yii\web\View $this  */
+/* @var yuncms\authentication\models\Settings $model  */
 
 $this->title = Yii::t('authentication', 'Settings');
 $this->params['breadcrumbs'][] = Yii::t('authentication', 'Manage Authentication');
@@ -46,9 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ]); ?>
 
             <?= $form->field($model, 'enableMachineReview')->inline()->checkbox([], false); ?>
-
-
-
             <?= $form->field($model, 'idCardUrl') ?>
             <?= $form->field($model, 'idCardPath') ?>
 
