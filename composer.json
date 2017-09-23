@@ -32,7 +32,7 @@
         "class":"yii\\i18n\\PhpMessageSource",
         "basePath":"@yuncms/authentication/message"
       },
-      "migrationNamespace": "@yuncms/authentication/migrations",
+      "migrationNamespace": "yuncms/authentication/migrations",
       "backend": {
         "class": "yuncms\\authentication\\backend\\Module"
       },
