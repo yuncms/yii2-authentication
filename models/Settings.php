@@ -22,6 +22,11 @@ class Settings extends Model
     public $enableMachineReview;
 
     /**
+     * @var string 阿里云图像识别AppCode
+     */
+    public $ociAppCode;
+
+    /**
      * @var integer 身份证图片访问URL
      */
     public $idCardUrl;
@@ -39,6 +44,7 @@ class Settings extends Model
     {
         return [
             'enableMachineReview' => 'boolean',
+            'ociAppCode' => 'boolean',
             'idCardUrl' => 'string',
             'idCardPath' => 'string',
         ];
@@ -49,7 +55,7 @@ class Settings extends Model
         return [
             [['enableMachineReview',], 'boolean'],
             [['enableMachineReview'], 'default', 'value' => true],
-            [['idCardUrl', 'idCardPath',], 'string'],
+            [['idCardUrl', 'idCardPath','ociAppCode'], 'string'],
         ];
     }
 
@@ -60,6 +66,7 @@ class Settings extends Model
     {
         return [
             'enableMachineReview' => Yii::t('authentication', 'Enable Machine Review'),
+            'ociAppCode' => Yii::t('authentication', 'Machine Review Code'),
             'idCardUrl' => Yii::t('authentication', 'idCard Url'),
             'idCardPath' => Yii::t('authentication', 'idCard Save Path'),
         ];
