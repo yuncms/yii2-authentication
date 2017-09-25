@@ -46,6 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]); ?>
 
             <?= $form->field($model, 'enableMachineReview')->inline()->checkbox([], false); ?>
+            <?= $form->field($model, 'ociAppCode') ?>
             <?= $form->field($model, 'idCardUrl') ?>
             <?= $form->field($model, 'idCardPath') ?>
 

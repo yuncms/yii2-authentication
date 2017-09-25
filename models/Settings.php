@@ -44,7 +44,7 @@ class Settings extends Model
     {
         return [
             'enableMachineReview' => 'boolean',
-            'ociAppCode' => 'boolean',
+            'ociAppCode' => 'string',
             'idCardUrl' => 'string',
             'idCardPath' => 'string',
         ];
@@ -55,7 +55,7 @@ class Settings extends Model
         return [
             [['enableMachineReview',], 'boolean'],
             [['enableMachineReview'], 'default', 'value' => true],
-            [['idCardUrl', 'idCardPath','ociAppCode'], 'string'],
+            [['idCardUrl', 'idCardPath', 'ociAppCode'], 'string'],
         ];
     }
 

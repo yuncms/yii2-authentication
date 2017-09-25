@@ -28,6 +28,7 @@ return [
     'Enable Machine Review' => '启用机器审核',
     'idCard Url' => '图片访问URL',
     'idCard Save Path' => '图片存储路径',
+    'Machine Review Code' => '阿里云图像识别接口AppCode',
     'Rejected' => '已拒绝',
     'Reset' => '重置',
     'Search' => '搜索',
