@@ -29,34 +29,27 @@ class AuthenticationJob extends Object implements RetryableJob
     public function execute($queue)
     {
         if (($authentication = Authentication::findOne(['user_id' => $this->userId, 'id_type' => Authentication::TYPE_ID])) != null) {
-            //获取身份证正面图像的保存路径
-            $passportCoverPath = Yii::getAlias(Yii::$app->settings->get('authentication', 'idCardPath'), false) . $authentication->passport_cover;
-            if (is_file($passportCoverPath)) {
-                $fileContent = file_get_contents($passportCoverPath);
-                $base64Content = base64_encode($fileContent);
-                $oci = $this->ocrIdCard($base64Content);
-                if ($oci && (isset($oci['name']) && isset($oci['name']))) {
-                    if ($oci['name'] == $authentication->real_name && $oci['num'] == $authentication->id_card) {//比对身份证
-                        $result = Yii::$app->id98->getIdCard($authentication->real_name, $authentication->id_card);
-                        if ($result['success'] == true) {
-                            if ($result['data'] == 1) {
-                                $authentication->status = Authentication::STATUS_AUTHENTICATED;
-                                $authentication->failed_reason = '信息比对一致';
-                            } else if ($result['data'] == 2) {
-                                $authentication->status = Authentication::STATUS_REJECTED;
-                                $authentication->failed_reason = '姓名和身份证号码不一致';
-                            } else if ($result['data'] == 3) {
-                                $authentication->status = Authentication::STATUS_REJECTED;
-                                $authentication->failed_reason = '身份证中心查无此身份证号码';
-                            }
+            $fileContent = file_get_contents($authentication->passport_cover);
+            $base64Content = base64_encode($fileContent);
+            $oci = $this->ocrIdCard($base64Content);
+            if ($oci && (isset($oci['name']) && isset($oci['name']))) {
+                if ($oci['name'] == $authentication->real_name && $oci['num'] == $authentication->id_card) {//比对身份证
+                    $result = Yii::$app->id98->getIdCard($authentication->real_name, $authentication->id_card);
+                    if ($result['success'] == true) {
+                        if ($result['data'] == 1) {
+                            $authentication->status = Authentication::STATUS_AUTHENTICATED;
+                            $authentication->failed_reason = '信息比对一致';
+                        } else if ($result['data'] == 2) {
+                            $authentication->status = Authentication::STATUS_REJECTED;
+                            $authentication->failed_reason = '姓名和身份证号码不一致';
+                        } else if ($result['data'] == 3) {
+                            $authentication->status = Authentication::STATUS_REJECTED;
+                            $authentication->failed_reason = '身份证中心查无此身份证号码';
                         }
-                    } else{
-                        $authentication->status = Authentication::STATUS_REJECTED;
-                        $authentication->failed_reason = '姓名和身份证号码不一致';
                     }
                 } else {
                     $authentication->status = Authentication::STATUS_REJECTED;
-                    $authentication->failed_reason = '身份证图像识别失败了，请上传清晰的身份证照片。';
+                    $authentication->failed_reason = '姓名和身份证号码不一致';
                 }
             } else {
                 $authentication->status = Authentication::STATUS_REJECTED;
