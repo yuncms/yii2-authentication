@@ -27,7 +27,7 @@ class M170827090430Create_authentication_table extends Migration
             'passport_cover' => $this->string(),
             'passport_person_page' => $this->string(),
             'passport_self_holding' => $this->string(),
-            'status' => $this->smallInteger(1)->defaultValue(0),
+            'status' => $this->smallInteger(1)->unsigned()->defaultValue(0),
             'failed_reason' => $this->string(),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->notNull(),
