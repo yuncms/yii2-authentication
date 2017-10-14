@@ -44,7 +44,7 @@ class AuthenticationController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'update', 'captcha'],
+                        'actions' => ['index', 'create', 'update', 'captcha'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -60,22 +60,34 @@ class AuthenticationController extends Controller
     {
         /** @var Authentication|null $model */
         if (($model = Authentication::findOne(['user_id' => Yii::$app->user->id])) == null) {
-            /** @var Authentication $model */
-            $model = Yii::createObject([
-                'class' => Authentication::className(),
-                'scenario' => 'create',
-            ]);
-            if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-                $model->id_file = UploadedFile::getInstance($model, 'id_file');
-                $model->id_file1 = UploadedFile::getInstance($model, 'id_file1');
-                $model->id_file2 = UploadedFile::getInstance($model, 'id_file2');
-                if ($model->save()) {
-                    return $this->redirect(['index']);
-                }
-            }
+            return $this->redirect(['create']);
         }
         return $this->render('index', [
             'model' => $model
+        ]);
+    }
+
+    /**
+     * 提交实名认证
+     * @return string|Response
+     */
+    public function actionCreate()
+    {
+        /** @var Authentication $model */
+        if (($model = Authentication::findOne(['user_id' => Yii::$app->user->id])) == null) {
+            return $this->redirect(['index']);
+        }
+        $model->scenario = 'create';
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            $model->id_file = UploadedFile::getInstance($model, 'id_file');
+            $model->id_file1 = UploadedFile::getInstance($model, 'id_file1');
+            $model->id_file2 = UploadedFile::getInstance($model, 'id_file2');
+            if ($model->save()) {
+                return $this->redirect(['index']);
+            }
+        }
+        return $this->render('create', [
+            'model' => $model,
         ]);
     }
 
@@ -101,6 +113,5 @@ class AuthenticationController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-
     }
 }
