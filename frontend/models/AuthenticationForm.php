@@ -20,21 +20,6 @@ use yuncms\authentication\models\Authentication;
 class AuthenticationForm extends Authentication
 {
     /**
-     * @var int 证件类别
-     */
-    public $id_type;
-
-    /**
-     * @var string 真实姓名
-     */
-    public $real_name;
-
-    /**
-     * @var string 证件号
-     */
-    public $id_card;
-
-    /**
      * @var \yii\web\UploadedFile 身份证上传字段
      */
     public $id_file;
