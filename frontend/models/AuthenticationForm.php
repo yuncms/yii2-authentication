@@ -5,11 +5,12 @@
  * @license http://www.tintsoft.com/license/
  */
 
-namespace yuncms\authentication;
+namespace yuncms\authentication\frontend\models;
 
 use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use yuncms\authentication\AuthenticationTrait;
 use yuncms\authentication\models\Authentication;
 
 /**
@@ -18,6 +19,23 @@ use yuncms\authentication\models\Authentication;
  */
 class AuthenticationForm extends Model
 {
+    use AuthenticationTrait;
+
+    /**
+     * @var int 证件类别
+     */
+    public $id_type;
+
+    /**
+     * @var string 真实姓名
+     */
+    public $real_name;
+
+    /**
+     * @var string 证件号
+     */
+    public $id_card;
+
     /**
      * @var \yii\web\UploadedFile 身份证上传字段
      */
@@ -57,7 +75,6 @@ class AuthenticationForm extends Model
         return ArrayHelper::merge($scenarios, [
             'create' => ['real_name', 'id_type', 'id_card', 'id_file', 'id_file1', 'id_file2'],
             'update' => ['real_name', 'id_type', 'id_card', 'id_file', 'id_file1', 'id_file2'],
-            'verify' => ['real_name', 'id_card', 'status', 'failed_reason'],
         ]);
     }
 
@@ -69,9 +86,6 @@ class AuthenticationForm extends Model
         return [
             [['real_name', 'id_card', 'id_file', 'id_file1', 'id_file2', 'verifyCode'], 'required', 'on' => ['create', 'update']],
             [['real_name', 'id_card',], 'filter', 'filter' => 'trim'],
-
-
-            [['failed_reason'], 'filter', 'filter' => 'trim'],
 
             [['id_card'], 'string', 'when' => function ($model) {//中国大陆18位身份证号码
                 return $model->id_type == Authentication::TYPE_ID;
@@ -129,6 +143,10 @@ class AuthenticationForm extends Model
             'updated_at' => Yii::t('authentication', 'Updated At'),
             'registrationPolicy' => Yii::t('authentication', 'Agree and accept Service Agreement and Privacy Policy'),
         ];
+    }
+
+    public function save(){
+
     }
 
     /**

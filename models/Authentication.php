@@ -33,6 +33,8 @@ use yuncms\user\models\User;
  */
 class Authentication extends ActiveRecord
 {
+    use AuthenticationTrait;
+
     /**
      * @var \yii\web\UploadedFile 身份证上传字段
      */
