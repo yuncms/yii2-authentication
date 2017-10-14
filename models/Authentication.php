@@ -13,6 +13,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 use yuncms\user\models\User;
+use yuncms\system\validators\IdCardValidator;
+use yuncms\authentication\AuthenticationTrait;
 
 /**
  * This is the model class for table "authentications".
@@ -69,19 +71,6 @@ class Authentication extends ActiveRecord
     const STATUS_PENDING = 0;
     const STATUS_REJECTED = 1;
     const STATUS_AUTHENTICATED = 2;
-
-    protected $idCardUrl;
-    protected $idCardPath;
-
-    /**
-     * 初始化
-     */
-    public function init()
-    {
-        parent::init();
-        $this->idCardUrl = Yii::getAlias(Yii::$app->settings->get('idCardUrl', 'authentication'), false);
-        $this->idCardPath = Yii::getAlias(Yii::$app->settings->get('idCardPath', 'authentication'), false);
-    }
 
     /**
      * @inheritdoc
@@ -141,7 +130,7 @@ class Authentication extends ActiveRecord
             }, 'whenClient' => "function (attribute, value) {return jQuery(\"#authentication-id_type\").val() == '" . Authentication::TYPE_ID . "';}",
                 'length' => 18, 'on' => ['create', 'update']],
 
-            ['id_card', 'yuncms\system\validators\IdCardValidator', 'when' => function ($model) {//中国大陆18位身份证号码校验
+            ['id_card', IdCardValidator::className(), 'when' => function ($model) {//中国大陆18位身份证号码校验
                 return $model->id_type == static::TYPE_ID;
             }, 'on' => ['create', 'update']],
 
@@ -287,7 +276,7 @@ class Authentication extends ActiveRecord
         $user = static::findOne(['user_id' => $user_id]);
         return $user ? $user->status == static::STATUS_AUTHENTICATED : false;
     }
-    
+
     /**
      * 删除前先删除附件
      * @return bool

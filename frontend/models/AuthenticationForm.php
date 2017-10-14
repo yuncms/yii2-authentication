@@ -17,10 +17,8 @@ use yuncms\authentication\models\Authentication;
  * Class AuthenticationForm
  * @package yuncms\authentication
  */
-class AuthenticationForm extends Model
+class AuthenticationForm extends Authentication
 {
-    use AuthenticationTrait;
-
     /**
      * @var int 证件类别
      */
@@ -60,11 +58,6 @@ class AuthenticationForm extends Model
      * @var bool 是否同意注册协议
      */
     public $registrationPolicy;
-
-    /**
-     * @var Authentication
-     */
-    private $_authentication;
 
     /**
      * @inheritdoc
@@ -143,25 +136,5 @@ class AuthenticationForm extends Model
             'updated_at' => Yii::t('authentication', 'Updated At'),
             'registrationPolicy' => Yii::t('authentication', 'Agree and accept Service Agreement and Privacy Policy'),
         ];
-    }
-
-    public function save(){
-
-    }
-
-    /**
-     * @return Authentication
-     */
-    public function getAuthentication()
-    {
-        if ($this->_authentication === null) {
-            $this->_authentication = Authentication::findOne(['user_id' => Yii::$app->user->id]);
-        } else {
-            $this->_authentication = Yii::createObject([
-                'class' => Authentication::className(),
-                'scenario' => 'create',
-            ]);
-        }
-        return $this->_authentication;
     }
 }
