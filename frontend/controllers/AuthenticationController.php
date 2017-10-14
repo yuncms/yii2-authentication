@@ -12,8 +12,7 @@ use yii\web\Response;
 use yii\web\Controller;
 use yii\web\UploadedFile;
 use yii\filters\AccessControl;
-use yuncms\authentication\models\Authentication;
-use yuncms\authentication\frontend\models\AuthenticationForm;
+use yuncms\authentication\frontend\models\Authentication;
 
 /**
  * Class AuthenticationController
@@ -77,7 +76,7 @@ class AuthenticationController extends Controller
         if (Authentication::isAuthentication(Yii::$app->user->id)) {
             return $this->redirect(['index']);
         }
-        $model = new AuthenticationForm();
+        $model = new Authentication();
         $model->scenario = 'create';
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
             $model->id_file = UploadedFile::getInstance($model, 'id_file');
