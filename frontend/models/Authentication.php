@@ -9,6 +9,7 @@ namespace yuncms\authentication\frontend\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 /**
  * Class AuthenticationForm
@@ -48,8 +49,8 @@ class Authentication extends \yuncms\authentication\models\Authentication
     {
         $scenarios = parent::scenarios();
         return ArrayHelper::merge($scenarios, [
-            'create' => ['real_name', 'id_type', 'id_card', 'id_file', 'id_file1', 'id_file2'],
-            'update' => ['real_name', 'id_type', 'id_card', 'id_file', 'id_file1', 'id_file2'],
+            self::SCENARIO_CREATE => ['real_name', 'id_type', 'id_card', 'id_file', 'id_file1', 'id_file2'],
+            self::SCENARIO_UPDATE => ['real_name', 'id_type', 'id_card', 'id_file', 'id_file1', 'id_file2'],
         ]);
     }
 
@@ -100,6 +101,18 @@ class Authentication extends \yuncms\authentication\models\Authentication
             'id_file2' => Yii::t('authentication', 'Passport self holding'),
             'registrationPolicy' => Yii::t('authentication', 'Agree and accept Service Agreement and Privacy Policy'),
         ]);
+    }
+
+    /**
+     * 加载上传文件
+     * @return bool
+     */
+    public function beforeValidate()
+    {
+        $this->id_file = UploadedFile::getInstance($this, 'id_file');
+        $this->id_file1 = UploadedFile::getInstance($this, 'id_file1');
+        $this->id_file2 = UploadedFile::getInstance($this, 'id_file2');
+        return parent::beforeValidate();
     }
 
     /**

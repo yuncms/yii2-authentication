@@ -58,7 +58,6 @@ class AuthenticationController extends Controller
      */
     public function actionIndex()
     {
-        /** @var Authentication|null $model */
         if (($model = Authentication::findOne(['user_id' => Yii::$app->user->id])) == null) {
             return $this->redirect(['create']);
         }
@@ -73,18 +72,13 @@ class AuthenticationController extends Controller
      */
     public function actionCreate()
     {
-        if (Authentication::isAuthentication(Yii::$app->user->id)) {
+        if ((Authentication::findOne(['user_id' => Yii::$app->user->id])) != null || Authentication::isAuthentication(Yii::$app->user->id)) {
             return $this->redirect(['index']);
         }
         $model = new Authentication();
-        $model->scenario = 'create';
-        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            $model->id_file = UploadedFile::getInstance($model, 'id_file');
-            $model->id_file1 = UploadedFile::getInstance($model, 'id_file1');
-            $model->id_file2 = UploadedFile::getInstance($model, 'id_file2');
-            if ($model->save()) {
-                return $this->redirect(['index']);
-            }
+        $model->scenario = Authentication::SCENARIO_CREATE;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
         }
         return $this->render('create', [
             'model' => $model,
@@ -99,16 +93,11 @@ class AuthenticationController extends Controller
     {
         /** @var Authentication $model */
         if (($model = Authentication::findOne(['user_id' => Yii::$app->user->id])) == null) {
-            return $this->redirect(['index']);
+            return $this->redirect(['create']);
         }
-        $model->scenario = 'update';
-        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            $model->id_file = UploadedFile::getInstance($model, 'id_file');
-            $model->id_file1 = UploadedFile::getInstance($model, 'id_file1');
-            $model->id_file2 = UploadedFile::getInstance($model, 'id_file2');
-            if ($model->save()) {
-                return $this->redirect(['index']);
-            }
+        $model->scenario = Authentication::SCENARIO_UPDATE;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
         }
         return $this->render('update', [
             'model' => $model,

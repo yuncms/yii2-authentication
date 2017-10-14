@@ -98,7 +98,7 @@ class Authentication extends ActiveRecord
         return [
             //realName rule
             'realNameRequired' => ['real_name', 'required'],
-            'realNameTrim' => ['real_name', 'filter', 'trim'],
+            'realNameTrim' => ['real_name',  'trim'],
 
             //idCard rule
             'idCardRequired' => ['id_card', 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
@@ -112,7 +112,6 @@ class Authentication extends ActiveRecord
                 'length' => 18,
                 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]
             ],
-
             'idCardMatch' => [
                 'id_card',
                 'yuncms\system\validators\IdCardValidator',
@@ -121,7 +120,7 @@ class Authentication extends ActiveRecord
                 },
                 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]
             ],
-            'idCardTrim' => ['id_card', 'filter', 'trim',],
+            'idCardTrim' => ['id_card', 'trim'],
 
             //idType rule
             'idTypeRange' => [
